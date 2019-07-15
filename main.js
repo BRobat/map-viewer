@@ -114,6 +114,8 @@ var y = 150;
 var zx = 500;
 var zy = 500;
 
+
+
 var positionInfo = map.getBoundingClientRect();
 var height = positionInfo.height;
 var width = positionInfo.width;
@@ -147,7 +149,7 @@ function addPathEventListeners() {
 
         x.addEventListener('mouseleave', () => {
             x.style.fill = "grey";
-            map.style.cursor = "move"
+            map.style.cursor = "default"
         })
 
         x.addEventListener('click', () => {
@@ -169,28 +171,46 @@ function moveAround() {
     // modify x, y
     // how to foken grab this boi
     // if clicked and moved then do smth
-    let sx = 0
-    let sy = 0
-
+    let mx1 = 0;
+    let mx2 = 0;
+    let my1 = 0;
+    let my2 = 0;
+    let dx = 0;
+    let dy = 0;
+    
     let mouseDown = false;
+
     map.addEventListener('mousedown', (event) => {
         mouseDown = true;
-        sx = event.clientX;
-        sy = event.clientY;
+        mx1 = event.clientX;
+        my1 = event.clientY;
+
+        map.style.cursor = "default"
     })
 
     map.addEventListener('mouseup', () => {
         mouseDown = false;
+        mx1 = 0;
+        my1 = 0;
+
+        map.style.cursor = "default"
     })
 
     map.addEventListener('mousemove', (event) => {
-        console.log("x" + event.clientX)
-        console.log("y" + event.clientY)
-        //whyyyyy ;-;
-
         if (mouseDown) {
-            x += (sx - event.clientX) / 100;
-            y += (sy - event.clientY) / 100;
+            map.style.cursor = "move"
+            mx2 = event.clientX
+            my2 = event.clientY
+
+            dx = mx2 - mx1
+            dy = my2 - my1
+
+            x -= dx / 5;
+            y -= dy / 5;
+
+            mx1 = mx2
+            my1 = my2
+
             map.setAttributeNS(null, "viewBox", setPosVal(x, y, zx, zy));
         }
     })
@@ -200,7 +220,7 @@ function loadStyles() {
     //make 'em beautiful
     text.style.fontSize = "64px"
 
-    map.style.cursor = "move"
+    map.style.cursor = "default"
     map.style.background = "black"
     map.style.width = "100%"
     map.style.height = "100%"
