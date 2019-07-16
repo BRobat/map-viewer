@@ -106,15 +106,13 @@ var text = document.createElement("div");
 var map = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
 var activeRegion = "";
-
-
+var mapWidth = 0
+var mapHeight = 0
 
 var x = 800;
 var y = 150;
 var zx = 500;
 var zy = 500;
-
-
 
 var positionInfo = map.getBoundingClientRect();
 var height = positionInfo.height;
@@ -126,6 +124,11 @@ function init() {
     body.appendChild(text);
 
     map.setAttributeNS(null, "viewBox", setPosVal(x, y, zx, zy));
+
+    mapWidth = map.clientWidth;
+    mapHeight = map.clientHeight;
+
+    console.log(mapWidth)
 
     loadStyles();
 }
@@ -161,23 +164,30 @@ function addPathEventListeners() {
 
 function zoom() {
     map.addEventListener('wheel', (event) => {
-        zx -= event.deltaX
-        zy -= event.deltaX
+        if (zx > 100 && zy > 100) {
+            zx -= event.deltaX
+            zy -= event.deltaX
+        } else {
+            zx += 10;
+            zy += 10;
+        }
+        if (zx > 110 && zy > 110) {
+            x += event.deltaX / 2
+            // y -= event.deltaY / 4
+        }
         map.setAttributeNS(null, "viewBox", setPosVal(x, y, zx, zy));
     })
 }
 
 function moveAround() {
-    // modify x, y
-    // how to foken grab this boi
-    // if clicked and moved then do smth
+
     let mx1 = 0;
     let mx2 = 0;
     let my1 = 0;
     let my2 = 0;
     let dx = 0;
     let dy = 0;
-    
+
     let mouseDown = false;
 
     map.addEventListener('mousedown', (event) => {
@@ -205,8 +215,8 @@ function moveAround() {
             dx = mx2 - mx1
             dy = my2 - my1
 
-            x -= dx / 5;
-            y -= dy / 5;
+            x -= dx * zx / mapWidth; // mapWidth
+            y -= dy * zy / mapHeight;
 
             mx1 = mx2
             my1 = my2
