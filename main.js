@@ -105,7 +105,7 @@ var body = document.getElementById("body");
 var text = document.createElement("div");
 var map = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
-var activeRegion = "";
+var activeRegion = 0;
 var mapWidth = 0
 var mapHeight = 0
 
@@ -136,14 +136,16 @@ function init() {
 function drawRegions(region) {
     // draw background
 
-    region.map((x, i) => {
+    region.forEach((x, i) => {
         map.innerHTML += '<path id="region_' + i + '" d= " ' + x.coordinates + '" fill="rgb(126,126,126)" stroke="white"> </path>'
     })
 }
 
 function addPathEventListeners() {
     for (let i = 0; i < regions.length; i++) {
+        // set colorssss for active region and stuff
         let x = document.getElementById("region_" + String(i))
+        x.style.fill = "grey";
 
         x.addEventListener('mouseover', () => {
             x.style.fill = "blue";
@@ -151,14 +153,20 @@ function addPathEventListeners() {
         })
 
         x.addEventListener('mouseleave', () => {
-            x.style.fill = "grey";
-            map.style.cursor = "default"
+            if (activeRegion != i) {
+                x.style.fill = "grey";
+                map.style.cursor = "default"
+            }
         })
 
         x.addEventListener('click', () => {
+            regions.forEach((y,i) => {
+                // y.style.
+            })
             activeRegion = i
             text.innerHTML = regions[i].name
         })
+
     }
 }
 
@@ -237,9 +245,6 @@ function loadStyles() {
     body.style.overflow = "hidden"
     body.style.height = "100%"
 
-    positionInfo = map.getBoundingClientRect();
-    height = positionInfo.height;
-    width = positionInfo.width;
 
     console.log(height, width)
 }
