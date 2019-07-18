@@ -173,7 +173,7 @@ function addEventListeners() {
         x.style.fill = "grey";
 
         x.addEventListener('mouseover', () => {
-            x.style.fill = "blue";
+            x.style.fill = "green";
             map.style.cursor = "pointer"
         })
 
@@ -198,7 +198,7 @@ function highlightRegion() {
     map.style.cursor = "pointer"
 }
 
-function clearRegions(event) {
+function clearRegions(regions) {
 
 }
 
@@ -279,7 +279,7 @@ function updateView() {
 init();
 drawRegions(regions);
 addEventListeners();
-moveAround();
+
 
 
 
