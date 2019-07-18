@@ -263,6 +263,7 @@ function loadStyles() {
     map.style.height = "100%"
     body.style.overflow = "hidden"
     body.style.height = "100%"
+    body.style.position = "fixed"
 
 
     console.log(height, width)
