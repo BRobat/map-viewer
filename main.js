@@ -160,7 +160,10 @@ function addEventListeners() {
 
     map.addEventListener('mouseup', () => setMouseUp())
 
-    map.addEventListener('touchstart', () => setMouseDown())
+    map.addEventListener('touchstart', () => {
+        text.innerHTML = "edede"
+        setMouseDown()}
+        )
     map.addEventListener('touchend', () => setMouseUp())
     map.addEventListener('touchmove', () => moveAround())
     
