@@ -118,12 +118,21 @@ var positionInfo = map.getBoundingClientRect();
 var height = positionInfo.height;
 var width = positionInfo.width;
 
+let mx1 = 0;
+let mx2 = 0;
+let my1 = 0;
+let my2 = 0;
+let dx = 0;
+let dy = 0;
+
+let mouseDown = false;
+
 
 function init() {
     body.appendChild(map);
     body.appendChild(text);
 
-    map.setAttributeNS(null, "viewBox", setPosVal(x, y, zx, zy));
+    updateView()
 
     mapWidth = map.clientWidth;
     mapHeight = map.clientHeight;
@@ -137,11 +146,26 @@ function drawRegions(region) {
     // draw background
 
     region.forEach((x, i) => {
-        map.innerHTML += '<path id="region_' + i + '" d= " ' + x.coordinates + '" fill="rgb(126,126,126)" stroke="white"> </path>'
+        map.innerHTML += '<path id="region_' + i + '" d= " ' + x.coordinates + '" fill="grey" stroke="white"> </path>'
     })
 }
 
-function addPathEventListeners() {
+function addEventListeners() {
+
+    map.addEventListener('wheel', (event) => zoom(event))
+
+    map.addEventListener('mousemove', (event) => moveAround(event))
+
+    map.addEventListener('mousedown', (event) => setMouseDown(event))
+
+    map.addEventListener('mouseup', () => setMouseUp())
+
+    map.addEventListener('touchstart', () => setMouseDown())
+    map.addEventListener('touchend', () => setMouseUp())
+    map.addEventListener('touchmove', () => moveAround())
+    
+
+    //regios should have property ID so pro could get
     for (let i = 0; i < regions.length; i++) {
         // set colorssss for active region and stuff
         let x = document.getElementById("region_" + String(i))
@@ -159,80 +183,74 @@ function addPathEventListeners() {
             }
         })
 
-        x.addEventListener('click', () => {
-            regions.forEach((y,i) => {
-                // y.style.
-            })
-            activeRegion = i
-            text.innerHTML = regions[i].name
-        })
-
+        x.addEventListener('click', () => activateRegion(i, regions))
     }
 }
 
-function zoom() {
-    map.addEventListener('wheel', (event) => {
-        if (zx > 100 && zy > 100) {
-            zx -= event.deltaX
-            zy -= event.deltaX
-        } else {
-            zx += 10;
-            zy += 10;
-        }
-        if (zx > 110 && zy > 110) {
-            x += event.deltaX / 2
-            // y -= event.deltaY / 4
-        }
-        map.setAttributeNS(null, "viewBox", setPosVal(x, y, zx, zy));
-    })
+function activateRegion(i, regions) {
+    activeRegion = i
+    text.innerHTML = regions[i].name
 }
 
-function moveAround() {
-
-    let mx1 = 0;
-    let mx2 = 0;
-    let my1 = 0;
-    let my2 = 0;
-    let dx = 0;
-    let dy = 0;
-
-    let mouseDown = false;
-
-    map.addEventListener('mousedown', (event) => {
-        mouseDown = true;
-        mx1 = event.clientX;
-        my1 = event.clientY;
-
-        map.style.cursor = "default"
-    })
-
-    map.addEventListener('mouseup', () => {
-        mouseDown = false;
-        mx1 = 0;
-        my1 = 0;
-
-        map.style.cursor = "default"
-    })
-
-    map.addEventListener('mousemove', (event) => {
-        if (mouseDown) {
-            map.style.cursor = "move"
-            mx2 = event.clientX
-            my2 = event.clientY
-
-            dx = mx2 - mx1
-            dy = my2 - my1
-
-            x -= dx * zx / mapWidth; // mapWidth
-            y -= dy * zy / mapHeight;
-
-            mx1 = mx2
-            my1 = my2
-
-            map.setAttributeNS(null, "viewBox", setPosVal(x, y, zx, zy));
-        }
-    })
+function highlightRegion() {
+    x.style.fill = "blue";
+    map.style.cursor = "pointer"
 }
+
+function clearRegions(event) {
+
+}
+
+function moveAround(event) {
+    if (mouseDown) {
+        map.style.cursor = "move"
+        mx2 = event.clientX
+        my2 = event.clientY
+
+        dx = mx2 - mx1
+        dy = my2 - my1
+
+        x -= dx * zx / mapWidth; // mapWidth
+        y -= dy * zy / mapHeight;
+
+        mx1 = mx2
+        my1 = my2
+
+        updateView()
+    }
+}
+
+function setMouseDown(event) {
+    mouseDown = true;
+    mx1 = event.clientX;
+    my1 = event.clientY;
+
+    map.style.cursor = "default"
+}
+
+function setMouseUp(event) {
+    mouseDown = false;
+    mx1 = 0;
+    my1 = 0;
+
+    map.style.cursor = "default"
+}
+
+function zoom(event) {
+    if (zx > 100 && zy > 100) {
+        zx -= event.deltaX
+        zy -= event.deltaX
+    } else {
+        zx += 1;
+        zy += 1;
+    }
+    if (zx > 110 && zy > 110) {
+        x += event.deltaX / 2
+        // y -= event.deltaY / 4
+    }
+    updateView()
+}
+
 
 function loadStyles() {
     //make 'em beautiful
@@ -253,8 +271,15 @@ function setPosVal(x, y, zx, zy) {
     return x + " " + y + " " + zx + " " + zy;
 }
 
+function updateView() {
+    map.setAttributeNS(null, "viewBox", setPosVal(x, y, zx, zy));
+}
+
 init();
 drawRegions(regions);
-addPathEventListeners();
+addEventListeners();
 moveAround();
-zoom();
+
+
+
+
