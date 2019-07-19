@@ -163,8 +163,8 @@ function addEventListeners() {
     map.addEventListener('mousedown', (event) => setMouseDown(event))
     map.addEventListener('mouseup', () => setMouseUp())
 
-    map.addEventListener('touchstart', (event) => setMouseDown(event))
     map.addEventListener('touchmove', (event) => moveAround(event))
+    map.addEventListener('touchstart', (event) => setMouseDown(event))
     map.addEventListener('touchend', () => setMouseUp())
 
 
@@ -208,19 +208,20 @@ function clearRegions(regions) {
 }
 
 function moveAround(event) {
+    text.innerHTML = "movin"
     if (mouseDown) {
-        map.style.cursor = "move"
-        mx2 = event.clientX
-        my2 = event.clientY
+        map.style.cursor = "move";
+        mx2 = event.clientX;
+        my2 = event.clientY;
 
-        dx = mx2 - mx1
-        dy = my2 - my1
+        dx = mx2 - mx1;
+        dy = my2 - my1;
 
-        x -= dx * zx / mapWidth; // mapWidth
+        x -= dx * zx / mapWidth; 
         y -= dy * zy / mapHeight;
 
-        mx1 = mx2
-        my1 = my2
+        mx1 = mx2;
+        my1 = my2;
 
         updateView()
     }
@@ -231,6 +232,8 @@ function setMouseDown(event) {
     mx1 = event.clientX;
     my1 = event.clientY;
 
+    text.innerHTML = "touched"
+
     map.style.cursor = "default"
 }
 
@@ -238,6 +241,8 @@ function setMouseUp(event) {
     mouseDown = false;
     mx1 = 0;
     my1 = 0;
+
+    text.innerHTML = "detouched"
 
     map.style.cursor = "default"
 }
