@@ -163,9 +163,9 @@ function addEventListeners() {
     map.addEventListener('mousedown', (event) => setMouseDown(event))
     map.addEventListener('mouseup', () => setMouseUp())
 
-    map.addEventListener('touchstart', (event) => setMouseDown(event), false)
-    map.addEventListener('touchmove', (event) => moveAround(event), false)
-    map.addEventListener('touchend', () => setMouseUp(), false)
+    map.addEventListener('touchstart', (event) => setMouseDown(event))
+    map.addEventListener('touchmove', (event) => moveAround(event))
+    map.addEventListener('touchend', () => setMouseUp())
 
 
     //regios should have property ID so pro could get
