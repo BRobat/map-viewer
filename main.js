@@ -101,9 +101,9 @@ var regions = [
 
 
 
-var body = document.getElementById("body");
-var text = document.createElement("div");
-var map = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+const body = document.getElementById("body");
+const text = document.createElement("div");
+const map = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
 var activeRegion = 0;
 var mapWidth = 0
@@ -128,7 +128,7 @@ let dy = 0;
 let mouseDown = false;
 
 
-function init() {
+function constructor() {
     body.appendChild(map);
     body.appendChild(text);
 
@@ -137,9 +137,9 @@ function init() {
     mapWidth = map.clientWidth;
     mapHeight = map.clientHeight;
 
-    console.log(mapWidth)
-
     loadStyles();
+    drawRegions(regions);
+    addEventListeners();
 }
 
 function drawRegions(region) {
@@ -150,21 +150,23 @@ function drawRegions(region) {
     })
 }
 
+function getRegions() {
+    return regions.map((x,i) => {
+
+    })
+}
+
 function addEventListeners() {
 
     map.addEventListener('wheel', (event) => zoom(event))
-
     map.addEventListener('mousemove', (event) => moveAround(event))
-
     map.addEventListener('mousedown', (event) => setMouseDown(event))
-
     map.addEventListener('mouseup', () => setMouseUp())
 
+    map.addEventListener('touchstart', (event) => setMouseDown(event), false)
+    map.addEventListener('touchmove', (event) => moveAround(event), false)
+    map.addEventListener('touchend', () => setMouseUp(), false)
 
-    map.addEventListener('touchstart', (event) => setMouseDown(event))
-    map.addEventListener('touchend', () => setMouseUp())
-    map.addEventListener('touchmove', (event) => moveAround(event))
-    
 
     //regios should have property ID so pro could get
     for (let i = 0; i < regions.length; i++) {
@@ -193,13 +195,16 @@ function activateRegion(i, regions) {
     text.innerHTML = regions[i].name
 }
 
-function highlightRegion() {
+function highlightRegion() { 
     x.style.fill = "blue";
     map.style.cursor = "pointer"
 }
 
 function clearRegions(regions) {
+    //take all regions ang make them grey leaving only one clear
+    regions.forEach((x,i) => {
 
+    })
 }
 
 function moveAround(event) {
@@ -254,7 +259,6 @@ function zoom(event) {
 
 
 function loadStyles() {
-    //make 'em beautiful
     text.style.fontSize = "64px"
 
     map.style.cursor = "default"
@@ -263,10 +267,6 @@ function loadStyles() {
     map.style.height = "100%"
     body.style.overflow = "hidden"
     body.style.height = "100%"
-    body.style.position = "fixed"
-
-
-    console.log(height, width)
 }
 
 function setPosVal(x, y, zx, zy) {
@@ -277,9 +277,7 @@ function updateView() {
     map.setAttributeNS(null, "viewBox", setPosVal(x, y, zx, zy));
 }
 
-init();
-drawRegions(regions);
-addEventListeners();
+constructor();
 
 
 
