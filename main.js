@@ -232,7 +232,7 @@ function moveAround(event) {
         mx1 = mx2;
         my1 = my2;
 
-        text.innerHTML += (mx1,mx2)
+        text.innerHTML += mx1
 
         updateView()
     }
