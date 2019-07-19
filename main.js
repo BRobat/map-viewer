@@ -151,7 +151,7 @@ function drawRegions(region) {
 }
 
 function getRegions() {
-    return regions.map((x,i) => {
+    return regions.map((x, i) => {
 
     })
 }
@@ -163,9 +163,18 @@ function addEventListeners() {
     map.addEventListener('mousedown', (event) => setMouseDown(event))
     map.addEventListener('mouseup', () => setMouseUp())
 
-    map.addEventListener('touchmove', (event) => moveAround(event))
-    map.addEventListener('touchstart', (event) => setMouseDown(event))
-    map.addEventListener('touchend', () => setMouseUp())
+    map.addEventListener('touchmove', (event) => {
+        event.preventDefault()
+        moveAround(event)
+    })
+    map.addEventListener('touchstart', (event) => {
+        event.preventDefault()
+        setMouseDown(event)
+    })
+    map.addEventListener('touchend', () => {
+        event.preventDefault()
+        setMouseUp()
+    })
 
 
     //regios should have property ID so pro could get
@@ -195,14 +204,14 @@ function activateRegion(i, regions) {
     text.innerHTML = regions[i].name
 }
 
-function highlightRegion() { 
+function highlightRegion() {
     x.style.fill = "blue";
     map.style.cursor = "pointer"
 }
 
 function clearRegions(regions) {
     //take all regions ang make them grey leaving only one clear
-    regions.forEach((x,i) => {
+    regions.forEach((x, i) => {
 
     })
 }
@@ -217,7 +226,7 @@ function moveAround(event) {
         dx = mx2 - mx1;
         dy = my2 - my1;
 
-        x -= dx * zx / mapWidth; 
+        x -= dx * zx / mapWidth;
         y -= dy * zy / mapHeight;
 
         mx1 = mx2;
