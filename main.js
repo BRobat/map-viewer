@@ -220,8 +220,8 @@ function moveAround(event) {
     text.innerHTML = "movin"
     if (mouseDown) {
         map.style.cursor = "move";
-        mx2 = event.clientX;
-        my2 = event.clientY;
+        mx2 = event.touches[0].clientX;
+        my2 = event.touches[0].clientY;
 
         dx = mx2 - mx1;
         dy = my2 - my1;
@@ -240,8 +240,8 @@ function moveAround(event) {
 
 function setMouseDown(event) {
     mouseDown = true;
-    mx1 = event.clientX;
-    my1 = event.clientY;
+    mx1 = event.touches[0].clientX;
+    my1 = event.touches[0].clientY;
 
     text.innerHTML = "touched"
 
