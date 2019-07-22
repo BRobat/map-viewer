@@ -164,7 +164,7 @@ function addEventListeners() {
     map.addEventListener('touchmove', (event) => {
         event.preventDefault()
        
-        text.innerHTML +=  event.clientX
+        text.innerHTML +=  event.touches[0].clientX
         moveAround(event)
     })
     map.addEventListener('touchstart', (event) => {
