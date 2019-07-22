@@ -131,7 +131,7 @@ function constructor() {
     body.appendChild(map);
     body.appendChild(text);
 
-    updateView(); 
+    updateView();
     loadStyles();
     drawRegions(regions);
     addEventListeners();
@@ -163,8 +163,8 @@ function addEventListeners() {
 
     map.addEventListener('touchmove', (event) => {
         event.preventDefault()
-       
-        text.innerHTML +=  event.touches[0].clientX
+
+        text.innerHTML += event.touches[0].clientX
         moveAround(event)
     })
     map.addEventListener('touchstart', (event) => {
@@ -220,8 +220,14 @@ function moveAround(event) {
     text.innerHTML = "movin"
     if (mouseDown) {
         map.style.cursor = "move";
-        mx2 = event.touches[0].clientX;
-        my2 = event.touches[0].clientY;
+
+        if (event.clientX != undefined) {
+            mx2 = event.clientX;
+            my2 = event.clientY;
+        } else {
+            mx2 = event.touches[0].clientX;
+            my2 = event.touches[0].clientY;
+        }
 
         dx = mx2 - mx1;
         dy = my2 - my1;
@@ -240,8 +246,13 @@ function moveAround(event) {
 
 function setMouseDown(event) {
     mouseDown = true;
-    mx1 = event.touches[0].clientX;
-    my1 = event.touches[0].clientY;
+    if (event.clientX != undefined) {
+        mx1 = event.clientX;
+        my1 = event.clientY;
+    } else {
+        mx1 = event.touches[0].clientX;
+        my1 = event.touches[0].clientY;
+    }
 
     text.innerHTML = "touched"
 
@@ -281,7 +292,7 @@ function loadStyles() {
     map.style.background = "black"
     map.style.width = "100%"
     map.style.height = "100%"
-    
+
     body.style.overflow = "hidden"
     body.style.height = "100%"
 }
