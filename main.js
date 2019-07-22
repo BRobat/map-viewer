@@ -127,19 +127,17 @@ let dy = 0;
 
 let mouseDown = false;
 
-
 function constructor() {
     body.appendChild(map);
     body.appendChild(text);
 
-    updateView()
-
-    mapWidth = map.clientWidth;
-    mapHeight = map.clientHeight;
-
+    updateView(); 
     loadStyles();
     drawRegions(regions);
     addEventListeners();
+
+    mapWidth = map.clientWidth;
+    mapHeight = map.clientHeight;
 }
 
 function drawRegions(region) {
@@ -165,6 +163,8 @@ function addEventListeners() {
 
     map.addEventListener('touchmove', (event) => {
         event.preventDefault()
+       
+        text.innerHTML +=  event.clientX
         moveAround(event)
     })
     map.addEventListener('touchstart', (event) => {
@@ -248,7 +248,7 @@ function setMouseDown(event) {
     map.style.cursor = "default"
 }
 
-function setMouseUp(event) {
+function setMouseUp() {
     mouseDown = false;
     mx1 = 0;
     my1 = 0;
@@ -281,6 +281,7 @@ function loadStyles() {
     map.style.background = "black"
     map.style.width = "100%"
     map.style.height = "100%"
+    
     body.style.overflow = "hidden"
     body.style.height = "100%"
 }
@@ -294,7 +295,6 @@ function updateView() {
 }
 
 constructor();
-
 
 
 
