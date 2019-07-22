@@ -196,6 +196,7 @@ function addEventListeners() {
         })
 
         x.addEventListener('click', () => activateRegion(i, regions))
+        x.addEventListener('touchstart', () => activateRegion(i, regions))
     }
 }
 
