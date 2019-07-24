@@ -687,14 +687,17 @@ var elevators = [
     [
         {
             "coordinates": "M 45.72 327.21 L 45.72 285.16 C 45.72 285.15 45.73 285.14 45.74 285.14 L 128.92 285.14 C 128.93 285.14 128.94 285.15 128.94 285.16 L 128.94 327.21 C 128.94 327.22 128.93 327.23 128.92 327.23 L 45.74 327.23 C 45.73 327.23 45.72 327.22 45.72 327.21 Z "
+            , "to": 2
         }
     ], [
         {
             "coordinates": "M 45.72 327.21 L 45.72 285.16 C 45.72 285.15 45.73 285.14 45.74 285.14 L 128.92 285.14 C 128.93 285.14 128.94 285.15 128.94 285.16 L 128.94 327.21 C 128.94 327.22 128.93 327.23 128.92 327.23 L 45.74 327.23 C 45.73 327.23 45.72 327.22 45.72 327.21 Z "
+            , "to": 0
         }
     ], [
         {
             "coordinates": "M 45.72 327.21 L 45.72 285.16 C 45.72 285.15 45.73 285.14 45.74 285.14 L 128.92 285.14 C 128.93 285.14 128.94 285.15 128.94 285.16 L 128.94 327.21 C 128.94 327.22 128.93 327.23 128.92 327.23 L 45.74 327.23 C 45.73 327.23 45.72 327.22 45.72 327.21 Z "
+            , "to": 1
         }
     ]
 ]
@@ -782,21 +785,27 @@ function addEventListeners() {
             }
         })
 
-        x.addEventListener('touchstart', (event) => activateRegion(i, regions[floor]))
+        x.addEventListener('touchend', (event) => {
+
+            event.preventDefault()
+            activateRegion(i, regions[floor])})
         x.addEventListener('click', () => {
             activateRegion(i, regions[floor])
-            
+
         })
     }
 
-    elevators[floor].forEach((y,i) => {
+    elevators[floor].forEach((y, i) => {
         let x = document.getElementById("elev_" + String(i))
 
         x.addEventListener('click', () => {
-            if (floor == 2) {
-                floor = -1
-            }
-            floor += 1
+            floor = x.getAttribute.to
+            reload()
+            constructor()
+        })
+
+        x.addEventListener('touchend', () => {
+            floor = x.getAttribute.to
             reload()
             constructor()
         })
@@ -876,7 +885,7 @@ function moveAround(event) {
 
 function reload() {
     map.innerHTML = '';
-    
+
 }
 
 function setMouseDown(event) {
@@ -905,6 +914,9 @@ function setMouseUp() {
 }
 
 function zoom(event) {
+
+
+
     if (zx > 100 && zy > 100) {
         zx -= event.deltaX
         zy -= event.deltaX
