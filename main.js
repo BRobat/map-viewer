@@ -780,7 +780,7 @@ function addEventListeners() {
         x.addEventListener('touchend', () => {
             activateRegion(i, regions[floor])
         })
-        
+
         x.addEventListener('mouseover', () => {
             x.style.fill = "green";
             map.style.cursor = "pointer"
@@ -798,7 +798,7 @@ function addEventListeners() {
         let x = document.getElementById("elev_" + String(i))
 
         x.addEventListener('click', () => {
-            floor = x.getAttribute.to
+            floor = y.to
             reload()
             constructor()
         })
