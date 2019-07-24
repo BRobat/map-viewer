@@ -804,7 +804,7 @@ function addEventListeners() {
         })
 
         x.addEventListener('touchend', () => {
-            floor = x.getAttribute.to
+            floor = y.to
             reload()
             constructor()
         })
@@ -827,9 +827,6 @@ function addEventListeners() {
         event.preventDefault()
         setMouseUp()
     })
-
-
-
 }
 
 function activateRegion(i, regions) {
@@ -913,7 +910,7 @@ function setMouseUp() {
 }
 
 function zoom(event) {
-
+    // add touch
 
 
     if (zx > 100 && zy > 100) {
