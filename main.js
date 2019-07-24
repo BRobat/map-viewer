@@ -785,13 +785,12 @@ function addEventListeners() {
             }
         })
 
-        x.addEventListener('touchend', (event) => {
-
-            event.preventDefault()
-            activateRegion(i, regions[floor])})
         x.addEventListener('click', () => {
             activateRegion(i, regions[floor])
-
+        })
+        x.addEventListener('touchend', () => {
+            event.preventDefault()
+            activateRegion(i, regions[floor])
         })
     }
 
