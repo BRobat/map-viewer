@@ -773,6 +773,14 @@ function addEventListeners() {
         let x = document.getElementById("region_" + String(i))
         x.style.fill = "grey";
 
+
+        x.addEventListener('click', () => {
+            activateRegion(i, regions[floor])
+        })
+        x.addEventListener('touchend', () => {
+            activateRegion(i, regions[floor])
+        })
+        
         x.addEventListener('mouseover', () => {
             x.style.fill = "green";
             map.style.cursor = "pointer"
@@ -783,14 +791,6 @@ function addEventListeners() {
                 x.style.fill = "grey";
                 map.style.cursor = "default"
             }
-        })
-
-        x.addEventListener('click', () => {
-            activateRegion(i, regions[floor])
-        })
-        x.addEventListener('touchend', () => {
-            event.preventDefault()
-            activateRegion(i, regions[floor])
         })
     }
 
