@@ -705,6 +705,7 @@ var elevators = [
 const body = document.getElementById("body");
 const text = document.createElement("div");
 const map = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+const interface = document.createElement("div");
 
 const borderMinX = 0;
 const borderMaxX = 150;
@@ -740,11 +741,13 @@ let floor = 0;
 function constructor() {
     body.appendChild(map);
     body.appendChild(text);
+    body.appendChild(interface);
 
     updateView();
-    loadStyles();
     drawRegions(regions[floor], backgrounds[floor], elevators[floor]);
     addEventListeners();
+    loadInterface();
+    loadStyles();
 
     mapWidth = map.clientWidth;
     mapHeight = map.clientHeight;
@@ -763,8 +766,12 @@ function drawRegions(region, background, elevator) {
     elevator.forEach((x, i) => {
         map.innerHTML += '<path id="elev_' + i + '" d= "' + x.coordinates + '" fill="rgba(126,126,0,0.5)" stroke="white"> </path>'
     })
-
 }
+
+function loadInterface() {
+    interface.innerHTML = '<button id="p2">p2</button> <button id="p1">p1</button> <button id="p0">p0</button>'
+}
+
 
 function addEventListeners() {
 
@@ -779,7 +786,9 @@ function addEventListeners() {
             activateRegion(i, regions[floor])
         })
         x.addEventListener('touchend', () => {
+            //maybe it should be a different function lol
             activateRegion(i, regions[floor])
+            text.innerHTML = regions.name
         })
 
         x.addEventListener('mouseover', () => {
@@ -917,8 +926,6 @@ function setMouseDown(event) {
         my1 = event.touches[0].clientY;
     }
 
-    text.innerHTML = "touched"
-
     map.style.cursor = "default"
 }
 
@@ -927,14 +934,11 @@ function setMouseUp() {
     mx1 = 0;
     my1 = 0;
 
-    text.innerHTML = "detouched"
-
     map.style.cursor = "default"
 }
 
 function zoom(event) {
     // add touch
-
 
     if (zx > 100 && zy > 100) {
         zx -= event.deltaX
@@ -958,6 +962,8 @@ function goDown() {
 }
 
 function loadStyles() {
+
+    // two trybes: one when height to width ratio is
     text.style.fontSize = "64px"
 
     map.style.cursor = "default"
