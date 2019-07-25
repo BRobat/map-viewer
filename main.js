@@ -706,6 +706,11 @@ const body = document.getElementById("body");
 const text = document.createElement("div");
 const map = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
+const borderMinX = 0;
+const borderMaxX = 150;
+const borderMinY = 0;
+const borderMaxY = 400;
+
 var activeRegion = 0;
 var mapWidth = 0;
 var mapHeight = 0;
@@ -729,6 +734,8 @@ let dy = 0;
 let mouseDown = false;
 
 let floor = 0;
+
+
 
 function constructor() {
     body.appendChild(map);
@@ -757,12 +764,6 @@ function drawRegions(region, background, elevator) {
         map.innerHTML += '<path id="elev_' + i + '" d= "' + x.coordinates + '" fill="rgba(126,126,0,0.5)" stroke="white"> </path>'
     })
 
-}
-
-function getRegions() {
-    return regions[floor].map((x, i) => {
-
-    })
 }
 
 function addEventListeners() {
@@ -851,7 +852,6 @@ function clearRegions() {
 }
 
 function moveAround(event) {
-    text.innerHTML = "movin"
     if (mouseDown) {
         map.style.cursor = "move";
 
@@ -866,8 +866,31 @@ function moveAround(event) {
         dx = mx2 - mx1;
         dy = my2 - my1;
 
-        x -= dx * zx / mapWidth;
-        y -= dy * zy / mapHeight;
+
+        if (x > borderMinX) {
+            x -= dx * zx / mapWidth / 2;
+        } else if (dx > 0) {
+            x += dx * zx / mapWidth / 2;
+        }
+
+        if (x < borderMaxX) {
+            x -= dx * zx / mapWidth / 2;
+        } else if (dx < 0) {
+            x += dx * zx / mapWidth / 2;
+        }
+        
+        if (y > borderMinY) {
+            y -= dy * zy / mapHeight / 2;
+        } else if (dy > 0) {
+            y += dy * zy / mapHeight / 2;
+        }
+
+        if (y < borderMaxY) {
+            y -= dy * zy / mapHeight / 2;
+        } else if (dy < 0) {
+            y += dy * zy / mapHeight / 2;
+        }
+       
 
         mx1 = mx2;
         my1 = my2;
