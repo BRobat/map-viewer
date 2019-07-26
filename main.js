@@ -787,8 +787,9 @@ function addEventListeners() {
         })
         x.addEventListener('touchend', () => {
             //maybe it should be a different function lol
-            activateRegion(i, regions[floor])
-            text.innerHTML = regions.name
+            activeRegion = i
+            clearRegions();
+            text.innerHTML = "regions.name"
         })
 
         x.addEventListener('mouseover', () => {
