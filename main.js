@@ -783,10 +783,12 @@ function addEventListeners() {
 
 
         x.addEventListener('click', () => {
+            x.style.fill = "green";
             activateRegion(i, regions[floor])
         })
         x.addEventListener('touchend', () => {
             //maybe it should be a different function lol
+            x.style.fill = "green";
             activeRegion = i
             clearRegions();
             text.innerHTML = "regions.name"
