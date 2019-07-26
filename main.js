@@ -737,7 +737,8 @@ let my2 = 0;
 let dx = 0;
 let dy = 0;
 
-let d = 0
+let d1 = 0
+let d2 = 0
 
 
 
@@ -878,12 +879,17 @@ function moveAround(event) {
             mx2 = event.clientX;
             my2 = event.clientY;
         } else {
-            mx2 = event.touches[1].clientX;
-            my2 = event.touches[1].clientY;
+            mx2 = event.touches[0].clientX;
+            my2 = event.touches[0].clientY;
+
+            // mx22 = event.touches[1].clientX;
+            // my22 = event.touches[1].clientY;
         }
 
         dx = mx2 - mx1;
         dy = my2 - my1;
+
+
 
 
         if (x > borderMinX) {
