@@ -791,7 +791,7 @@ function addEventListeners() {
             x.style.fill = "green";
             activeRegion = i
             clearRegions();
-            text.innerHTML = "regions.name"
+            text.innerHTML = regions.name
         })
 
         x.addEventListener('mouseover', () => {
