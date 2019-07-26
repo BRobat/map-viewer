@@ -889,9 +889,6 @@ function moveAround(event) {
         dx = mx2 - mx1;
         dy = my2 - my1;
 
-
-
-
         if (x > borderMinX) {
             x -= dx * zx / mapWidth / 2;
         } else if (dx > 0) {
@@ -916,12 +913,8 @@ function moveAround(event) {
             y += dy * zy / mapHeight / 2;
         }
 
-
         mx1 = mx2;
         my1 = my2;
-
-
-        text.innerHTML += mx1
 
         touchZoom()
         updateView()
@@ -973,11 +966,11 @@ function zoom(event) {
     }
 
 
+    updateView()
 }
 
 
-updateView()
-}
+
 
 function goUp() {
     floor += 1;
