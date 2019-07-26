@@ -733,8 +733,13 @@ let mx1 = 0;
 let mx2 = 0;
 let my1 = 0;
 let my2 = 0;
+
 let dx = 0;
 let dy = 0;
+
+let d = 0
+
+
 
 let mouseDown = false;
 
@@ -873,8 +878,8 @@ function moveAround(event) {
             mx2 = event.clientX;
             my2 = event.clientY;
         } else {
-            mx2 = event.touches[0].clientX;
-            my2 = event.touches[0].clientY;
+            mx2 = event.touches[1].clientX;
+            my2 = event.touches[1].clientY;
         }
 
         dx = mx2 - mx1;
@@ -912,6 +917,7 @@ function moveAround(event) {
 
         text.innerHTML += mx1
 
+        touchZoom()
         updateView()
     }
 }
@@ -941,31 +947,30 @@ function setMouseUp() {
     map.style.cursor = "default"
 }
 
+function touchZoom() {
+
+}
+
 function zoom(event) {
     // add touch the same ifs as in 
-    if (event.clientX != undefined) {
-        if (zx > 100 && zy > 100) {
-            zx -= event.deltaX
-            zy -= event.deltaX
-        } else {
-            zx += 1;
-            zy += 1;
-        }
-        if (zx > 110 && zy > 110) {
-            x += event.deltaX / 2
-            y += event.deltaX / 2
-        }
-    } else {
-        //i have to know that there are two fingers on the 
-        //also i don't know if itll even work
-        if (event.touches[0].clientX != undefined && event.touches[1].clientX != undefined) {
-            text.innerHTML = "zooming in"
-        }
 
+    if (zx > 100 && zy > 100) {
+        zx -= event.deltaX
+        zy -= event.deltaX
+    } else {
+        zx += 1;
+        zy += 1;
+    }
+    if (zx > 110 && zy > 110) {
+        x += event.deltaX / 2
+        y += event.deltaX / 2
     }
 
 
-    updateView()
+}
+
+
+updateView()
 }
 
 function goUp() {
