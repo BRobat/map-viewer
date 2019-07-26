@@ -688,6 +688,10 @@ var elevators = [
         {
             "coordinates": "M 45.72 327.21 L 45.72 285.16 C 45.72 285.15 45.73 285.14 45.74 285.14 L 128.92 285.14 C 128.93 285.14 128.94 285.15 128.94 285.16 L 128.94 327.21 C 128.94 327.22 128.93 327.23 128.92 327.23 L 45.74 327.23 C 45.73 327.23 45.72 327.22 45.72 327.21 Z "
             , "to": 2
+        },
+        {
+            "coordinates": "M 45.72 327.21 L 45.72 285.16 C 45.72 285.15 45.73 285.14 45.74 285.14 L 128.92 285.14 C 128.93 285.14 128.94 285.15 128.94 285.16 L 128.94 327.21 C 128.94 327.22 128.93 327.23 128.92 327.23 L 45.74 327.23 C 45.73 327.23 45.72 327.22 45.72 327.21 Z "
+            , "to": 2
         }
     ], [
         {
@@ -707,10 +711,10 @@ const text = document.createElement("div");
 const map = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 const interface = document.createElement("div");
 
-const borderMinX = 0;
+const borderMinX = -50;
 const borderMaxX = 150;
-const borderMinY = 0;
-const borderMaxY = 400;
+const borderMinY = -50;
+const borderMaxY = 300;
 
 var activeRegion = 0;
 var mapWidth = 0;
@@ -769,13 +773,13 @@ function drawRegions(region, background, elevator) {
 }
 
 function loadInterface() {
-    interface.innerHTML = '<button id="p2">p2</button> <button id="p1">p1</button> <button id="p0">p0</button>'
+    interface.innerHTML = '<button class="btn" id="p2">p2</button> <button class="btn" id="p1">p1</button> <button class="btn" id="p0">p0</button>'
 }
 
 
 function addEventListeners() {
 
-    //regios should have property ID so pro could get
+    //regios should have property ID so program could get
     for (let i = 0; i < regions[floor].length; i++) {
         // set colorssss for active region and stuff
         let x = document.getElementById("region_" + String(i))
@@ -787,11 +791,8 @@ function addEventListeners() {
             activateRegion(i, regions[floor])
         })
         x.addEventListener('touchend', () => {
-            //maybe it should be a different function lol
             x.style.fill = "green";
-            activeRegion = i
-            clearRegions();
-            text.innerHTML = regions.name
+            activateRegion(i, regions[floor])
         })
 
         x.addEventListener('mouseover', () => {
@@ -835,6 +836,7 @@ function addEventListeners() {
     map.addEventListener('touchstart', (event) => {
         event.preventDefault()
         setMouseDown(event)
+        zoom()
     })
     map.addEventListener('touchend', () => {
         event.preventDefault()
@@ -890,7 +892,7 @@ function moveAround(event) {
         } else if (dx < 0) {
             x += dx * zx / mapWidth / 2;
         }
-        
+
         if (y > borderMinY) {
             y -= dy * zy / mapHeight / 2;
         } else if (dy > 0) {
@@ -902,7 +904,7 @@ function moveAround(event) {
         } else if (dy < 0) {
             y += dy * zy / mapHeight / 2;
         }
-       
+
 
         mx1 = mx2;
         my1 = my2;
@@ -916,7 +918,6 @@ function moveAround(event) {
 
 function reload() {
     map.innerHTML = '';
-
 }
 
 function setMouseDown(event) {
@@ -941,18 +942,29 @@ function setMouseUp() {
 }
 
 function zoom(event) {
-    // add touch
-
-    if (zx > 100 && zy > 100) {
-        zx -= event.deltaX
-        zy -= event.deltaX
+    // add touch the same ifs as in 
+    if (event.clientX != undefined) {
+        if (zx > 100 && zy > 100) {
+            zx -= event.deltaX
+            zy -= event.deltaX
+        } else {
+            zx += 1;
+            zy += 1;
+        }
+        if (zx > 110 && zy > 110) {
+            x += event.deltaX / 2
+            y += event.deltaX / 2
+        }
     } else {
-        zx += 1;
-        zy += 1;
+        //i have to know that there are two fingers on the 
+        //also i don't know if itll even work
+        if (event.touches[0].clientX != undefined && event.touches[1].clientX != undefined) {
+            text.innerHTML = "zooming in"
+        }
+
     }
-    if (zx > 110 && zy > 110) {
-        x += event.deltaX / 2
-    }
+
+
     updateView()
 }
 
@@ -987,7 +999,3 @@ function updateView() {
 }
 
 constructor();
-
-
-
-
